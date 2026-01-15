@@ -1,0 +1,17 @@
+{
+    "name": "frogsam/brief_1",
+    "autoload": {
+        "psr-4": {
+            "Frogsam\\Brief1\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sami-Regragui-Work",
+            "email": "sami-regragui-work@protonmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.22"
+    }
+}
