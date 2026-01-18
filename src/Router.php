@@ -40,7 +40,7 @@ class Router
                         exit;
                     }
 
-                    if (!$this->auth_service->getCurrentRole() == $route["user_role"]) {
+                    if ($this->auth_service->getCurrentRole() !== $route["user_role"]) {
                         $this->render403();
                         exit;
                     }
