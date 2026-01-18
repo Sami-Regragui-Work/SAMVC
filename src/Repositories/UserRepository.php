@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Database\Database;
+use App\Database;
 use App\enumTypes\RoleName;
 use App\Models\User;
 use Exception;
@@ -97,6 +97,25 @@ class UserRepository
         } catch (PDOException $e) {
             error_log("UserRepository create error: " . $e->getMessage());
             throw new Exception("Failed to create user");
+        }
+    }
+
+    public function emailExists(string $email): bool
+    {
+        try {
+            $sql = <<<SQL
+            SELECT COUNT(*)
+            FROM users
+            WHERE email = ?
+            SQL;
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$email]);
+
+            return $stmt->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            error_log("UserRepository emailExists error: " . $e->getMessage());
+            return false;
         }
     }
 }

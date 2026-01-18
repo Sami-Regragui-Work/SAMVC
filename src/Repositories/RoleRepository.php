@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Database\Database;
+use App\Database;
 use App\enumTypes\RoleName;
 use App\Models\Role;
 use PDO;
