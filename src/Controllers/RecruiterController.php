@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\AuthService;
+use App\View;
 
 class RecruiterController
 {
@@ -16,6 +17,6 @@ class RecruiterController
     public function dashboard(): void
     {
         $user = $this->authService->getCurrentUser();
-        require_once __DIR__ . '/../Views/recruiter/dashboard.php';
+        View::render('recruiter/dashboard.twig', ['user' => $user]);
     }
 }

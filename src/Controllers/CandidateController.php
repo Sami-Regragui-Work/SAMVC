@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\AuthService;
+use App\View;
 
 class CandidateController
 {
@@ -16,6 +17,6 @@ class CandidateController
     public function dashboard(): void
     {
         $user = $this->authService->getCurrentUser();
-        require_once __DIR__ . '/../Views/candidate/dashboard.php';
+        View::render('candidate/dashboard.twig', ['user' => $user]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\AuthService;
+use App\View;
 
 class AuthController
 {
@@ -27,7 +28,10 @@ class AuthController
             return;
         }
 
-        require_once __DIR__ . "/../Views/auth/register.php";
+        $errors = $_SESSION['errors'] ?? [];
+        unset($_SESSION['errors']);
+
+        View::render('auth/register.twig', ['errors' => $errors]);
     }
 
     public function register(): void
@@ -46,6 +50,7 @@ class AuthController
         if (empty($_POST['role']) || !in_array($_POST['role'], ['candidate', 'recruiter'])) {
             $errors[] = "Valid role is required";
         }
+
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             header('Location: /register');
@@ -77,7 +82,14 @@ class AuthController
             return;
         }
 
-        require_once __DIR__ . '/../Views/auth/login.php';
+        $errors = $_SESSION['errors'] ?? [];
+        $success = $_SESSION['success'] ?? null;
+        unset($_SESSION['errors'], $_SESSION['success']);
+
+        View::render('auth/login.twig', [
+            'errors' => $errors,
+            'success' => $success
+        ]);
     }
 
     public function login(): void
