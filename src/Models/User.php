@@ -15,9 +15,9 @@ class User
     private readonly DateTimeImmutable $created_at;
     private ?DateTimeImmutable $updated_at;
 
-    private Role $role;
+    private readonly Role $role;
 
-    public function __construct(array $data, array $roleData)
+    public function __construct(array $data, Role $role)
     {
         $this->id = (int) $data["id"];
         $this->full_name = (string) $data["fullname"];
@@ -26,7 +26,7 @@ class User
         $this->created_at = new DateTimeImmutable($data["created_at"]);
         $this->updated_at = isset($data["updated_at"]) ? new DateTimeImmutable($data["updated_at"]) : null;
 
-        $this->role = new Role($roleData, $this);
+        $this->role = $role;
     }
 
     public function getId(): int
@@ -72,7 +72,7 @@ class User
     }
     public function setPassword(string $password): void
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = str_starts_with($password, "$2y") ? $password : password_hash($password, PASSWORD_DEFAULT);
     }
     public function setUpdatedAt(?DateTimeImmutable $updated_at): void
     {

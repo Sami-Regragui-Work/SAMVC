@@ -2,7 +2,7 @@
     "name": "frogsam/brief_1",
     "autoload": {
         "psr-4": {
-            "Frogsam\\Brief1\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
