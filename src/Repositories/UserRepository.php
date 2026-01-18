@@ -32,21 +32,30 @@ class UserRepository
 
     private function findBy(array $conditions): array
     {
-        if (empty($conditions)) return [];
 
         try {
-            $fields = array_keys($conditions);
-            $values = array_values($conditions);
-            $whereClause = implode(" AND ", array_map(fn($field) => "{$field} = ?", $fields));
+            if (empty($conditions)) {
+                $sql = <<<SQL
+                SELECT *
+                FROM users
+                SQL;
 
-            $sql = <<<SQL
-            SELECT * 
-            FROM users 
-            WHERE {$whereClause}
-            SQL;
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute();
+            } else {
+                $fields = array_keys($conditions);
+                $values = array_values($conditions);
+                $whereClause = implode(" AND ", array_map(fn($field) => "{$field} = ?", $fields));
 
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute($values);
+                $sql = <<<SQL
+                SELECT * 
+                FROM users 
+                WHERE {$whereClause}
+                SQL;
+
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute($values);
+            }
 
             $res = $stmt->fetchAll();
             return array_map(fn($row) => $this->toObject($row), $res);
@@ -70,6 +79,16 @@ class UserRepository
     public function findByEmail(string $email): ?User
     {
         return $this->findOneBy(["email" => $email]);
+    }
+
+    public function findByRoleName(string $role_name): array
+    {
+        return $this->findBy(["role_name" => $role_name]);
+    }
+
+    public function findAll(): array
+    {
+        return $this->findBy([]);
     }
 
     public function create(string $fullname, string $email, string $password, RoleName $roleName): User
