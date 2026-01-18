@@ -12,18 +12,18 @@ use PDOException;
 class UserRepository
 {
     private PDO $pdo;
-    private RoleRepository $roleRepo;
+    private RoleRepository $role_repo;
 
     public function __construct()
     {
         $this->pdo = Database::getPdo();
-        $this->roleRepo = new RoleRepository();
+        $this->role_repo = new RoleRepository();
     }
 
     private function toObject(array $res): User
     {
         $roleName = RoleName::from($res["role_name"]);
-        $role = $this->roleRepo->findByName($roleName);
+        $role = $this->role_repo->findByName($roleName);
 
         if (!$role) throw new Exception("Role not found for user");
 
@@ -75,7 +75,7 @@ class UserRepository
     public function create(string $fullname, string $email, string $password, RoleName $roleName): User
     {
         try {
-            $role = $this->roleRepo->findByName($roleName);
+            $role = $this->role_repo->findByName($roleName);
 
             if (!$role) {
                 throw new Exception("Role not found");

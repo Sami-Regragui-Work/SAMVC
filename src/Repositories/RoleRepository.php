@@ -22,7 +22,7 @@ class RoleRepository
         return new Role($data);
     }
 
-    public function findByName(RoleName $roleName): ?Role
+    public function findByName(RoleName $role_name): ?Role
     {
         try {
             $sql = <<<SQL
@@ -31,7 +31,7 @@ class RoleRepository
             WHERE name = ?
             SQL;
             $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$roleName->value]);
+            $stmt->execute([$role_name->value]);
 
             $data = $stmt->fetch();
 
