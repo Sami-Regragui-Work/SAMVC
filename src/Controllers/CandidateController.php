@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Interfaces\DashboardInterface;
 use App\Services\AuthService;
 use App\View;
 
-class CandidateController
+class CandidateController implements DashboardInterface
 {
     private AuthService $authService;
 

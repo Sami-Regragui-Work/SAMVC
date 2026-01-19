@@ -13,10 +13,13 @@ class View
     {
         if (self::$twig === null) {
             $loader = new FilesystemLoader(__DIR__ . '/Views');
-            self::$twig = new Environment($loader, [
-                'cache' => false,
-                'debug' => true,
-            ]);
+            self::$twig = new Environment(
+                $loader,
+                // [
+                //     'cache' => false,
+                //     'debug' => true,
+                // ]
+            );
         }
 
         return self::$twig;
